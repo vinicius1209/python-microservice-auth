@@ -31,12 +31,14 @@ def identity(payload):
     return userid_table.get(user_id, None)
 
 app = Flask(__name__)
-app.debug = True
 app.config['SECRET_KEY'] = 'quero-ser-contratado'
+app.config['JWT_AUTH_HEADER_PREFIX'] = 'JWT'
 
 jwt = JWT(app, authenticate, identity)
 
-@app.route('/protected')
+#app.route('/auth') is the default authentication endpoint to get Token
+
+@app.route('/checkAuth')
 @jwt_required()
 def protected():
     return '%s' % current_identity
